@@ -2,16 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 232 29% 10%;
+
+        --card: 0 0% 100%;
+        --card-foreground: 232 29% 10%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 232 29% 10%;
+
+        --primary: 17 33% 55%;
+        --primary-hover: 17 33% 60%;
+        --primary-foreground: 355.7 100% 100%;
+
+        --secondary: 232 0% 90%;
+        --secondary-foreground: 232 29% 20%;
+
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+
+        --accent: 240 4.8% 95%;
+        --accent-foreground: 240 5.9% 10%;
+
+        --destructive: 331 62% 50%;
+        --destructive-foreground: 0 0% 98%;
+
+        --border: 240 5.9% 85%;
+        --input: 240 5.9% 85%;
+        --ring: var(--primary);
+
+        --radius: 0.3rem;
+    }
+
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+        font-family: Inter;
+        overflow-x: hidden;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus,
+    button:focus {
+        outline: none;
+    }
+
+    input,
+    textarea,
+    button,
+    select,
+    a {
+        -webkit-tap-highlight-color: transparent;
+    }
 }
