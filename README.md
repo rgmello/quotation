@@ -29,7 +29,7 @@ git clone https://github.com/vonkakarius/quotation.git
 
 2. Crie um ambiente virtual para isolar as dependências do projeto:
 ```
-python -m venv venv
+cd backend && python -m venv venv
 ```
 
 3. Ative o ambiente virtual:
@@ -63,7 +63,7 @@ python manage.py runserver
 
 8. Inicie o frontend React em outro terminal:
 ```
-cd frontend
+cd ../frontend
 npm start
 ```
 
