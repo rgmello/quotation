@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { redirect, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { Asset, Price } from '../types'
+import { Asset } from '../types'
 
 export default function AssetDetails() {
     const { assetId } = useParams<{ assetId: string }>()
-
     const [asset, setAsset] = useState<Asset | null>(null)
 
     useEffect(() => {
@@ -14,7 +13,7 @@ export default function AssetDetails() {
                 const response = await axios.get<Asset>(`/api/assets/${assetId}/`)
                 setAsset(response.data)
             } catch (error) {
-                console.error('Erro ao obter detalhes do ativo:', error)
+                redirect('/not-found')
             }
         }
         fetchData()

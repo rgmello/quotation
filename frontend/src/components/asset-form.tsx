@@ -5,7 +5,7 @@ import Input from './input'
 
 interface AssetFormProps {
     asset?: Asset,
-    onSubmitAsset: (newAsset: Asset) => void,
+    onSubmitAsset: (newAsset: Asset) => Promise<void>,
     onCancel: () => void,
     className?: string
 }
@@ -21,16 +21,21 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
     }
 
     const [newAsset, setNewAsset] = useState(initialAsset)
+    const [errorMessage, setErrorMessage] = useState<string|null>(null)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target
         setNewAsset({ ...newAsset, [name]: value })
     }
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
-        onSubmitAsset(newAsset)
-        setNewAsset(initialAsset)
+        setErrorMessage(null)
+        try {
+            await onSubmitAsset(newAsset)
+        } catch (error) {
+            setErrorMessage('Não foi possível validar o código dessa ação.')
+        }
     }
 
     return (
@@ -45,19 +50,10 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                         required
                     />
                     <Input
-                        type='text'
-                        name='name'
-                        placeholder='Nome'
-                        value={newAsset.name}
-                        onChange={handleInputChange}
-                        required
-                    />
-
-                    <Input
                         type='number'
                         name='tunnel_lower_limit'
                         placeholder='Limite inferior'
-                        value={newAsset.tunnel_lower_limit || undefined}
+                        value={newAsset.tunnel_lower_limit}
                         onChange={handleInputChange}
                         required
                     />
@@ -65,7 +61,7 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                         type='number'
                         name='tunnel_upper_limit'
                         placeholder='Limite superior'
-                        value={newAsset.tunnel_upper_limit || undefined}
+                        value={newAsset.tunnel_upper_limit}
                         onChange={handleInputChange}
                         required
                     />
@@ -73,11 +69,16 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                         type='number'
                         name='check_interval_minutes'
                         placeholder='Intervalo de checagem em minutos'
-                        value={newAsset.check_interval_minutes || undefined}
+                        value={newAsset.check_interval_minutes}
                         onChange={handleInputChange}
                         required
                     />
             </div>
+            {errorMessage &&
+                <div className='w-full border rounded px-3 py-2 border-destructive text-destructive'>
+                    <p>{errorMessage}</p>
+                </div>
+            }
             <div className='flex flex-col md:flex-row gap-4'>
                 <Button type='submit'>Salvar</Button>
                 <Button variant='secondary' onClick={onCancel}>Cancelar</Button>

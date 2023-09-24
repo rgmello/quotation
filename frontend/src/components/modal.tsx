@@ -24,9 +24,9 @@ export default function Modal({ onClose, className, children }: ModalProps) {
     }, [onClose])
 
     return (
-        <div className='fixed inset-0 bg-foreground/5 backdrop-blur-sm flex items-center justify-center z-20'>
+        <div className='fixed inset-0 bg-background/5 backdrop-blur-lg flex items-center justify-center z-20'>
             <div className='modal' ref={modalRef}>
-                <div className={`w-[500px] bg-background border shadow p-8 rounded-lg flex flex-col gap-2 ${className}`}>
+                <div className={`w-[500px] bg-background border shadow-lg p-8 rounded-lg flex flex-col gap-2 ${className}`}>
                     {children}
                 </div>
             </div>

@@ -10,6 +10,7 @@ export default function Input({ className, ...props }: InputProps) {
     return (
         <input
             {...props}
+            value={props.value !== 0 ? props.value : ''}
             autoComplete='new-password'
             className={`${baseClasses} ${className}`}
         />
