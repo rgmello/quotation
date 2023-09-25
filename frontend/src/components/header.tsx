@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom'
 
 const links = [
     { label: 'Ações', href: '/assets' },
-    { label: 'Consultar', href: '/follow' },
 ]
 
 export default function Header() {

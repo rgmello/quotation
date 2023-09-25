@@ -5,7 +5,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default function Input({ className, ...props }: InputProps) {
-    const baseClasses = 'w-full border border-input rounded-md py-2 px-3 transition duration-300 ease-in-out focus:outline-none'
+    const baseClasses = 'w-full border border-input rounded-md py-2 px-3 transition duration-300 ease-in-out focus:outline-none focus:border-primary'
 
     return (
         <input
