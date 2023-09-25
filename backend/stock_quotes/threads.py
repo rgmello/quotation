@@ -18,7 +18,9 @@ class QuotationThread(threading.Thread):
             last_price = yf.Ticker(f'{code}.SA').history(period='1d')['Close'].iloc[-1]
             Price.objects.create(asset=self.asset, price=last_price)
 
-            while elapsed_time < 60 * self.interval_minutes and not self._stop_event.is_set():
+            print(f'> Preço {code}: R$ {last_price:.2f}')
+
+            while elapsed_time < self.interval_minutes and not self._stop_event.is_set():
                 elapsed_time = time.time() - start_time
                 time.sleep(1)
     

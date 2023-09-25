@@ -1,15 +1,23 @@
 from .models import Asset
 from .threads import QuotationThread
+from django.db.utils import OperationalError
+from time import sleep
 
 class AssetQuotationScheduler:
     _threads = {}
 
     @classmethod
     def start_initial_jobs(cls):
-        assets = Asset.objects.all()
-        for asset in assets:
-            if asset.code not in cls._threads:
-                cls.add_job(asset)
+        counter = 0
+        try:
+            assets = Asset.objects.all()
+            for asset in assets:
+                if asset.code not in cls._threads:
+                    cls.add_job(asset)
+        except OperationalError as e:
+            counter += 1
+            if counter > 5: raise e
+            sleep(1)
 
     @classmethod
     def add_job(cls, asset: Asset):
