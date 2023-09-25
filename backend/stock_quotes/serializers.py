@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from yfinance import Ticker
 from .models import Asset, Price
+from .scheduler import AssetQuotationScheduler
 
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,6 +22,17 @@ class AssetSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(f'Erro ao validar código do ativo: {e}')
 
         return data
+    
+    def create(self, validated_data):
+        asset = super().create(validated_data)
+        AssetQuotationScheduler.add_job(asset)
+        return asset
+
+    def update(self, instance, validated_data):
+        asset = super().update(instance, validated_data)
+        AssetQuotationScheduler.add_job(asset)
+        return asset
+    
 
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:
