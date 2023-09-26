@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Asset } from '../types'
+import { Asset } from '../utils/types'
 import AssetForm from './asset-form'
 import Modal from './modal'
 import { ArrowTrendingUpIcon, ArrowTrendingDownIcon, ClockIcon, PencilIcon, TrashIcon, ChartBarIcon } from '@heroicons/react/24/outline'
@@ -57,14 +57,14 @@ export default function AssetItem({ asset, onUpdateAsset, onDeleteAsset }: Asset
                     </div>
                 </Modal>
             }
-            <div className='border rounded-lg px-5 py-4 flex items-center justify-between'>
+            <div className='border bg-card shadow-lg rounded-lg px-5 py-4 flex items-center justify-between'>
                 <div className='flex flex-col'>
                     <span className='font-bold'>{asset.code}</span>
                     <span className='text-foreground/60'>{asset.name}</span>
-                    <div className='flex gap-4 mt-2 text-smaller'>
+                    <div className='flex gap-4 mt-3 text-smaller'>
                         <Info
                             text={`${asset.check_interval_minutes} min.`}
-                            icon={<ClockIcon className='w-4 text-primary' />}
+                            icon={<ClockIcon className='w-4 text-gray-800' />}
                         />
                         <Info
                             text={`R$ ${asset.tunnel_lower_limit.toString().replace('.', ',')}`}
@@ -106,13 +106,13 @@ function Info({ text, icon }: { text: string, icon: React.ReactElement }) {
 }
 
 function Option({ onClick, variant }: { onClick?: () => void, variant: 'follow' | 'edit' | 'delete' }) {
-    const optionBaseClass = 'w-[15px] h-auto'
+    const optionBaseClass = 'w-[15px] h-auto stroke-2'
 
     return (
-        <button onClick={onClick} className='px-3 py-4 rounded hover:bg-foreground/10 transition-all duration-300 ease-out'>
+        <button onClick={onClick} className='px-3 py-4 rounded text-foreground/80 hover:bg-foreground/10 transition-all duration-300 ease-out'>
             {variant === 'follow' && <ChartBarIcon className={optionBaseClass} />}
             {variant === 'edit' && <PencilIcon className={optionBaseClass} />}
-            {variant === 'delete' && <TrashIcon className={`${optionBaseClass} text-red-600`} />}
+            {variant === 'delete' && <TrashIcon className={`${optionBaseClass} text-red-500`} />}
         </button>
     )
 }
