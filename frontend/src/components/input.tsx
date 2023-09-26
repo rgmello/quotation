@@ -13,6 +13,7 @@ export default function Input({ className, ...props }: InputProps) {
             value={props.value !== 0 ? props.value : ''}
             autoComplete='new-password'
             className={`${baseClasses} ${className}`}
+            step={props.type == 'number' ? 0.01 : undefined}
         />
     )
 }

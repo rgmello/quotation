@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Asset } from '../types'
+import { Asset } from '../utils/types'
 import Button from './button'
 import Input from './input'
 

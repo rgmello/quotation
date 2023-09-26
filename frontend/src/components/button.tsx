@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, ReactNode } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode
-    variant?: 'primary' | 'secondary' | 'outline'
+    variant?: 'primary' | 'secondary'
     className?: string
 }
 
@@ -11,11 +11,8 @@ export default function Button({ children, variant = 'primary', className, ...pr
 
     let variantClasses = ''
     switch (variant) {
-        case 'outline':
-            variantClasses = 'bg-transparent border hover:bg-foreground/10 text-foreground'
-            break
         case 'secondary':
-            variantClasses = 'bg-secondary/80 hover:bg-secondary text-secondary-foreground'
+            variantClasses = 'border border-primary hover:bg-secondary text-primary'
             break
         default:
             variantClasses = 'bg-primary hover:bg-primary/80 text-primary-foreground'

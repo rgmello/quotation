@@ -6,7 +6,7 @@ const links = [
 
 export default function Header() {
     return (
-        <header className='sticky top-0 w-screen bg-white/40 border z-10'>
+        <header className='sticky top-0 w-screen bg-card/40 border z-10'>
             <div className='absolute inset-0 backdrop-blur' />
             <div className='mx-auto h-16 flex max-w-7xl items-center px-6 lg:px-8 gap-4'>
                 <Nav />

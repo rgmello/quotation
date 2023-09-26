@@ -7,7 +7,7 @@ import AssetDetails from './components/asset-details'
 import ErrorPage from './error-page'
 import Root from './root'
 import axios from 'axios'
-import { Asset } from './types'
+import { Asset } from './utils/types'
 
 const router = createBrowserRouter([
     {
