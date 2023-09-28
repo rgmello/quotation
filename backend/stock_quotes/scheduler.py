@@ -1,13 +1,14 @@
+from time import sleep
 from .models import Asset
 from .threads import QuotationThread
 from django.db.utils import OperationalError
-from time import sleep
+
 
 class AssetQuotationScheduler:
-    _threads = {}
+    _threads: dict[str, QuotationThread] = {}
 
     @classmethod
-    def start_initial_jobs(cls):
+    def start_initial_jobs(cls) -> None:
         counter = 0
         try:
             assets = Asset.objects.all()
@@ -20,25 +21,17 @@ class AssetQuotationScheduler:
             sleep(1)
 
     @classmethod
-    def add_job(cls, asset: Asset):
+    def add_job(cls, asset: Asset) -> None:
         cls.remove_job(asset.code)
-        thread = QuotationThread(asset, asset.check_interval_minutes)
+        thread = QuotationThread(asset)
         cls._threads[asset.code] = thread
         thread.daemon = True
         thread.start()
 
     @classmethod
-    def remove_job(cls, asset_code: str):
+    def remove_job(cls, asset_code: str) -> None:
         thread = cls._threads.get(asset_code)
         if thread:
             thread.stop()
             thread.join()
             del cls._threads[asset_code]
-
-    @classmethod
-    def get_thread(cls, asset_code: str):
-        return cls._threads.get(asset_code)
-
-    @classmethod
-    def get_all_threads(cls):
-        return cls._threads
