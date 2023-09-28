@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from yfinance import Ticker
-from .models import Asset, Price
+from .models import Asset, Price, EmailNotification
 from .scheduler import AssetQuotationScheduler
 
 class AssetSerializer(serializers.ModelSerializer):
@@ -37,4 +37,10 @@ class AssetSerializer(serializers.ModelSerializer):
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Price
+        fields = '__all__'
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmailNotification
         fields = '__all__'

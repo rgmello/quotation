@@ -1,16 +1,16 @@
-from .models import Asset, Price
+from .models import Asset, Price, EmailNotification
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .scheduler import AssetQuotationScheduler
-from .serializers import AssetSerializer, PriceSerializer
-from .pagination import AssetPagination
+from .serializers import AssetSerializer, PriceSerializer, NotificationSerializer
+from .pagination import CustomizablePagination
 
 class AssetViewSet(viewsets.ModelViewSet):
     queryset = Asset.objects.all().order_by('code')
     serializer_class = AssetSerializer
-    pagination_class = AssetPagination
+    pagination_class = CustomizablePagination
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -33,3 +33,10 @@ class AssetViewSet(viewsets.ModelViewSet):
 class PriceViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Price.objects.all().order_by('-timestamp')
     serializer_class = PriceSerializer
+    pagination_class = CustomizablePagination
+
+
+class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = EmailNotification.objects.all().order_by('-timestamp')
+    serializer_class = NotificationSerializer
+    pagination_class = CustomizablePagination
