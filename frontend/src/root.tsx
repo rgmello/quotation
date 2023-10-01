@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom'
-import Header from './components/header'
+import Sidebar from './components/navigation/sidebar'
 
 export default function Root() {
     return (
-        <>
-            <Header />
+        <div className='flex'>
+            <Sidebar />
             <Outlet />
-        </>
+        </div>
     )
 }

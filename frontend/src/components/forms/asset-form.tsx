@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
-import { Asset } from '../utils/types'
-import Button from './button'
-import Input from './input'
+import Input from '../primitives/input'
+import { twMerge } from 'tailwind-merge'
+import { Asset } from '../../utils/types'
+import Button from '../primitives/button'
+import LoadingSpinner from '../primitives/loading'
+
 
 interface AssetFormProps {
-    asset?: Asset,
-    onSubmitAsset: (newAsset: Asset) => Promise<void>,
-    onCancel: () => void,
+    asset?: Asset
+    onSubmitAsset: (newAsset: Asset) => Promise<void>
+    onCancel: () => void
     className?: string
 }
+
 
 export default function AssetForm({ asset, onSubmitAsset, onCancel, className }: AssetFormProps) {
     const initialAsset = asset || {
@@ -22,6 +26,7 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
 
     const [newAsset, setNewAsset] = useState(initialAsset)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target
@@ -30,16 +35,18 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
+        setIsLoading(true)
         setErrorMessage(null)
         try {
             await onSubmitAsset(newAsset)
         } catch (error) {
             setErrorMessage('Não foi possível validar o código dessa ação.')
         }
+        setIsLoading(false)
     }
 
     return (
-        <form onSubmit={handleSubmit} className={`w-full flex flex-col gap-6 ${className}`}>
+        <form onSubmit={handleSubmit} className={twMerge('w-full flex flex-col gap-6', className)}>
             <div className='flex flex-col gap-4'>
                 <Input
                     type='text'
@@ -48,6 +55,7 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                     value={newAsset.code}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                 />
                 <Input
                     type='number'
@@ -56,6 +64,7 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                     value={newAsset.tunnel_lower_limit}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                 />
                 <Input
                     type='number'
@@ -64,6 +73,7 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                     value={newAsset.tunnel_upper_limit}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                 />
                 <Input
                     type='number'
@@ -72,6 +82,7 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                     value={newAsset.check_interval_minutes}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                 />
             </div>
             {errorMessage &&
@@ -80,8 +91,8 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                 </div>
             }
             <div className='flex flex-col md:flex-row gap-4'>
-                <Button type='button' variant='secondary' onClick={onCancel}>Cancelar</Button>
-                <Button type='submit'>Salvar</Button>
+                <Button type='button' variant='outline' onClick={onCancel} disabled={isLoading}>Cancelar</Button>
+                <Button type='submit' disabled={isLoading}>{isLoading ? <LoadingSpinner /> : 'Salvar'}</Button>
             </div>
         </form>
     )

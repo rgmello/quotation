@@ -36,3 +36,16 @@ export interface PricesListApiPage {
     next: string | null,
     previous: string | null
 }
+
+// Consulta de Período
+
+export interface CycleQuery {
+    day?: number,
+    month?: number,
+    year: number
+}
+
+export interface QueryData {
+    query: CycleQuery
+    values: number[]
+}

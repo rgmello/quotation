@@ -15,19 +15,16 @@
         --popover: 0 0% 100%;
         --popover-foreground: 232 29% 10%;
 
-        --primary: 100 40% 40%;
+        --primary: 148 70% 35%;
         --primary-foreground: 355.7 100% 100%;
 
-        --secondary: 100 40% 95%;
-        --secondary-foreground: 232 29% 20%;
-
         --muted: 240 4.8% 95.9%;
-        --muted-foreground: 240 3.8% 46.1%;
+        --muted-foreground: 240 5.9% 10%;
 
-        --accent: 240 4.8% 95%;
+        --accent: 240 4.8% 93%;
         --accent-foreground: 240 5.9% 10%;
 
-        --destructive: 331 62% 50%;
+        --destructive: 360 60% 50%;
         --destructive-foreground: 0 0% 98%;
 
         --border: 240 5.9% 85%;
@@ -37,14 +34,44 @@
         --radius: 0.3rem;
     }
 
+    .dark {
+        --background: 232 20% 8%;
+        --foreground: 0 0% 98%;
+
+        --card: 232 20% 9%;
+        --card-foreground: 232 10% 80%;
+
+        --popover: 232 20% 9%;
+        --popover-foreground: 0 0% 100%;
+
+        --primary: 148 40% 40%;
+        --primary-foreground: 355.7 100% 100%;
+
+        --muted: 232 20% 13%;
+        --muted-foreground: 240 5% 64.9%;
+
+        --accent: 232 20% 15%;
+        --accent-foreground: 0 0% 100%;
+
+        --destructive: 1 55% 55%;
+        --destructive-foreground: 0 0% 98%;
+
+        --border: 232 20% 15%;
+        --input: 232 20% 20%;
+        --ring: var(--primary);
+    }
+
     * {
-        @apply border-border;
+        @apply border-border transition ease-out duration-100;
     }
 
     body {
         @apply bg-background text-foreground;
         font-family: Inter;
-        overflow-x: hidden;
+    }
+
+    #root {
+        @apply h-screen;
     }
 
     input:focus,

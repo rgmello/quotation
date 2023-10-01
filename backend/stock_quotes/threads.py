@@ -22,7 +22,7 @@ class QuotationThread(threading.Thread):
             try:
                 last_price = self.get_last_price()
                 recommendation = self.get_recommendation(last_price)
-                if recommendation: self.send_email_notification(recommendation)
+                #if recommendation: self.send_email_notification(recommendation)
             except Exception as e:
                 print(f'Não foi possível monitorar a ação {self.asset.code}:\n{e}')
 

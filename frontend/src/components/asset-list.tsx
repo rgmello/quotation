@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
 import axios from 'axios'
 import AssetItem from './asset-item'
-import AssetForm from './asset-form'
+import Button from './primitives/button'
+import { useState, useEffect } from 'react'
+import AssetSaveModal from './modals/asset-save-modal'
+import { PlusIcon } from '@heroicons/react/24/outline'
+import PaginationBar from './navigation/pagination-bar'
 import { Asset, AssetsListApiPage } from '../utils/types'
-import Button from './button'
-import Modal from './modal'
-import { ArrowLeftIcon, ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline'
+
 
 export default function AssetsList() {
     const [assetsPage, setAssetsPage] = useState<AssetsListApiPage>()
@@ -16,7 +17,6 @@ export default function AssetsList() {
         try {
             const response = await axios.get<AssetsListApiPage>(route || '/api/assets/')
             setAssetsPage(response.data)
-            console.log(response.data)
             setAssets(response.data.results)
         } catch (error) {
             console.error('Erro ao obter lista de ativos:', error)
@@ -38,6 +38,7 @@ export default function AssetsList() {
             )
             setAssets(updatedAssets)
         } catch (error) {
+            console.error('Erro ao atualizar ativo:', error)
             throw error
         }
     }
@@ -49,7 +50,7 @@ export default function AssetsList() {
             const updatedAssets = assets.filter((asset) => asset.id !== assetId)
             setAssets(updatedAssets)
         } catch (error) {
-            throw error
+            console.error('Erro ao deletar ativo:', error)
         }
     }
 
@@ -57,32 +58,29 @@ export default function AssetsList() {
         if (!assets) return
         try {
             const response = await axios.post<Asset>('/api/assets/', newAsset)
-            setAssets([...assets, response.data])
+            setAssets([response.data, ...assets])
             setIsAdding(false)
         } catch (error) {
+            console.error('Erro ao adicionar ativo:', error)
             throw error
         }
     }
 
     return (
-        <main className='w-[700px] flex flex-col mx-auto mt-6 mb-14 h-full gap-6 text-sm'>
-            <Button onClick={toggleAdding} className='w-full flex gap-2 justify-center shadow'>
-                <PlusIcon className='w-5 stroke-2' />
-                Adicionar
+        <main className='w-[800px] flex flex-col mx-auto py-[3%] h-full gap-6 text-sm'>
+            <Button onClick={toggleAdding} className='shadow'>
+                <PlusIcon className='w-5 stroke-2' /> Adicionar
             </Button>
 
             {isAdding &&
-                <Modal onClose={toggleAdding}>
-                    <span className='text-lg self-center font-semibold mb-4'>Adicionar Ação</span>
-                    <AssetForm
-                        onSubmitAsset={handleAddAsset}
-                        onCancel={toggleAdding}
-                    />
-                </Modal>
+                <AssetSaveModal
+                    onClose={toggleAdding}
+                    onSubmit={handleAddAsset}
+                />
             }
 
             {assets &&
-                <div className='flex flex-col gap-4'>
+                <div className='bg-card rounded-lg overflow-clip shadow-xl border flex flex-col gap-1 divide-y'>
                     {assets.map((asset) => (
                         <AssetItem
                             key={asset.id}
@@ -95,20 +93,14 @@ export default function AssetsList() {
             }
 
             {assetsPage &&
-                <div className='relative w-full bg-red-100 flex gap-6'>
-                    {assetsPage.previous && <PaginationButton variant='previous' onClick={() => fetchData(assetsPage.previous)} />}
-                    {assetsPage.next && <PaginationButton variant='next' onClick={() => fetchData(assetsPage.next)}  />}
-                </div>
+                <PaginationBar
+                    hasPrevious={assetsPage.previous !== null}
+                    hasNext={assetsPage.next !== null}
+                    onPreviousClick={() => fetchData(assetsPage.previous)}
+                    onNextClick={() => fetchData(assetsPage.next)}
+                />
             }
         </main>
     )
 }
 
-function PaginationButton({ variant, onClick }: { variant: 'previous' | 'next', onClick: () => void }) {
-    return (
-        <Button onClick={onClick} className={`absolute flex justify-center items-center gap-2 ${variant==='next' ? 'right-0' : 'left-0'} w-28 shadow`}>
-            {variant === 'previous' && <><ArrowLeftIcon className='w-4 h-auto' /> Anterior</>}
-            {variant === 'next' && <>Próximo <ArrowRightIcon className='w-4 h-auto' /></>}
-        </Button>
-    )
-}

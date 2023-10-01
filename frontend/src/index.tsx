@@ -1,13 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, redirect, RouterProvider } from 'react-router-dom'
 import './index.css'
-import AssetsList from './components/assets-list'
-import AssetDetails from './components/asset-details'
-import ErrorPage from './error-page'
 import Root from './root'
+import React from 'react'
 import axios from 'axios'
+import ErrorPage from './error-page'
 import { Asset } from './utils/types'
+import ReactDOM from 'react-dom/client'
+import AssetsList from './components/asset-list'
+import { ThemeProvider } from './providers/theme-provider'
+import AssetDetails from './components/dashboard/asset-dashboard'
+import { createBrowserRouter, redirect, RouterProvider } from 'react-router-dom'
+
 
 const router = createBrowserRouter([
     {
@@ -39,10 +41,14 @@ const router = createBrowserRouter([
     }
 ])
 
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+
 
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <ThemeProvider>
+            <RouterProvider router={router} />
+        </ThemeProvider>
     </React.StrictMode>
 )

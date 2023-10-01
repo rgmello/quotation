@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 interface ModalProps {
     onClose: () => void
@@ -26,7 +27,7 @@ export default function Modal({ onClose, className, children }: ModalProps) {
     return (
         <div className='fixed inset-0 backdrop-blur-lg flex items-center justify-center z-20'>
             <div className='modal' ref={modalRef}>
-                <div className={`w-[500px] bg-card border shadow-lg p-8 rounded-lg flex flex-col gap-2 ${className}`}>
+                <div className={twMerge('w-[500px] bg-card border shadow-lg p-8 rounded-lg flex flex-col gap-2', className)}>
                     {children}
                 </div>
             </div>

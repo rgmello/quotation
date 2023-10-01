@@ -49,7 +49,7 @@ class AssetViewSet(viewsets.ModelViewSet):
                 values = get_hourly_values(asset.id, year, month, day)
             elif month and year:
                 values = get_monthly_values(asset.id, year, month)
-            elif year:
+            elif not day and year:
                 values = get_annual_values(asset.id, year)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
