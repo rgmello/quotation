@@ -63,7 +63,7 @@ export default function Chart({ serie, tunnelLowerLimit, tunnelUpperLimit }: Cha
                     }
                 }
             }}
-            margin={{ top: 10, right: 15, bottom: 25, left: 50 }}
+            margin={{ top: 10, right: 15, bottom: 35, left: 50 }}
             xScale={{ type: 'point' }}
             yScale={{
                 type: 'linear',

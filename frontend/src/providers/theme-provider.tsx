@@ -1,5 +1,7 @@
 import { createContext, useEffect, useContext, useState, ReactNode } from 'react'
 
+const THEME_KEY = 'theme'
+
 interface ThemeContextType {
     isThemeDark: boolean
     toggleTheme: () => void
@@ -12,9 +14,16 @@ interface ThemeProviderProps {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-    const [isThemeDark, setIsThemeDark] = useState(false)
+    const [isThemeDark, setIsThemeDark] = useState<boolean>(() => {
+        const storedTheme = localStorage.getItem(THEME_KEY)
+        return storedTheme ? JSON.parse(storedTheme) : true
+    })
 
-    const toggleTheme = () => setIsThemeDark(!isThemeDark)
+    const toggleTheme = () => {
+        const newTheme = !isThemeDark
+        setIsThemeDark(newTheme)
+        localStorage.setItem(THEME_KEY, JSON.stringify(newTheme))
+    }
 
     useEffect(() => {
         document.body.className = isThemeDark ? 'dark' : ''

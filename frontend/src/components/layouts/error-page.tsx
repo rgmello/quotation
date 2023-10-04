@@ -1,5 +1,5 @@
 import { useRouteError } from 'react-router-dom'
-import Sidebar from './components/navigation/sidebar'
+import Sidebar from '../navigation/sidebar'
 
 export default function ErrorPage() {
     const error = useRouteError()

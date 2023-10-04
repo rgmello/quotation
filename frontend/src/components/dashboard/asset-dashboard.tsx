@@ -1,5 +1,5 @@
-import axios from 'axios'
 import QueryCard from './query-card'
+import getAxios from '../../utils/axios'
 import { useState, useEffect } from 'react'
 import AssetInfoCard from './asset-info-card'
 import QueryChartCard from './query-chart-card'
@@ -15,25 +15,26 @@ export default function AssetDashboard() {
     const [pricesPage, setPricesPage] = useState<PricesListApiPage>()
     const [lastPrice, setLastPrice] = useState<number>()
     const [queryData, setQueryData] = useState<QueryData>()
+    const axios = getAxios()
 
     // Obtenção de metadados sobre a ação
     useEffect(() => {
         async function fetchAssetMetaData() {
             try {
-                const response = await axios.get<Asset>(`/api/assets/${assetId}`)
+                const response = await axios.get<Asset>(`/assets/${assetId}/`)
                 setAsset(response.data)
             } catch (error) {
                 redirect('/not-found')
             }
         }
         fetchAssetMetaData()
-    }, [assetId])
+    }, [assetId, setAsset])
 
     // Obtenção de preços
     useEffect(() => {
         async function fetchAssetPrices() {
             try {
-                const response = await axios.get<PricesListApiPage>(`/api/assets/${assetId}/prices`)
+                const response = await axios.get<PricesListApiPage>(`/assets/${assetId}/prices/`)
                 setPricesPage(response.data)
                 setLastPrice(response.data.results[0].price)
             } catch (error) {
@@ -52,7 +53,7 @@ export default function AssetDashboard() {
     return (
         <>{asset &&
             <AssetProvider initialAsset={asset}>
-                <main className='w-full h-screen px-16 py-16 flex flex-col gap-6 text-sm min-w-0 overflow-x-hidden'>
+                <main className='w-full h-screen px-[4%] py-[3%] flex flex-col gap-6 text-sm min-w-0 overflow-x-hidden'>
                     <div className='w-full h-fit flex justify-between gap-6'>
                         <AssetInfoCard lastPrice={lastPrice} className='w-1/2' />
                         <QueryCard setQueryData={setQueryData} className='w-1/2' />

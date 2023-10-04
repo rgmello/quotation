@@ -6,7 +6,7 @@
 
 @layer base {
     :root {
-        --background: 0 0% 95%;
+        --background: 0 0% 97%;
         --foreground: 232 29% 10%;
 
         --card: 0 0% 100%;
@@ -18,7 +18,7 @@
         --primary: 148 70% 35%;
         --primary-foreground: 355.7 100% 100%;
 
-        --muted: 240 4.8% 95.9%;
+        --muted: 240 4.8% 98%;
         --muted-foreground: 240 5.9% 10%;
 
         --accent: 240 4.8% 93%;
@@ -62,11 +62,11 @@
     }
 
     * {
-        @apply border-border transition ease-out duration-100;
+        @apply border-border transition-colors ease-out duration-100;
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground text-base transition-none;
         font-family: Inter;
     }
 

@@ -1,5 +1,5 @@
-import axios from 'axios'
 import AssetItem from './asset-item'
+import getAxios from '../utils/axios'
 import Button from './primitives/button'
 import { useState, useEffect } from 'react'
 import AssetSaveModal from './modals/asset-save-modal'
@@ -12,27 +12,28 @@ export default function AssetsList() {
     const [assetsPage, setAssetsPage] = useState<AssetsListApiPage>()
     const [assets, setAssets] = useState<Asset[]>()
     const [isAdding, setIsAdding] = useState<boolean>(false)
-
-    async function fetchData(route?: string | null) {
-        try {
-            const response = await axios.get<AssetsListApiPage>(route || '/api/assets/')
-            setAssetsPage(response.data)
-            setAssets(response.data.results)
-        } catch (error) {
-            console.error('Erro ao obter lista de ativos:', error)
-        }
-    }
+    const [page, setPage] = useState(1)
+    const axios = getAxios()
 
     useEffect(() => {
+        async function fetchData(route?: string | null) {
+            try {
+                const response = await axios.get<AssetsListApiPage>(route || `assets/?page=${page}`)
+                setAssetsPage(response.data)
+                setAssets(response.data.results)
+            } catch (error) {
+                console.error('Erro ao obter lista de ativos:', error)
+            }
+        }
         fetchData()
-    }, [])
+    }, [page])
 
     const toggleAdding = () => setIsAdding(!isAdding)
 
     const handleUpdateAsset = async (updatedAsset: Asset) => {
         if (!assets) return
         try {
-            const response = await axios.put(`/api/assets/${updatedAsset.id}/`, updatedAsset)
+            const response = await axios.put(`/assets/${updatedAsset.id}/`, updatedAsset)
             const updatedAssets = assets.map((asset) =>
                 asset.id === updatedAsset.id ? response.data : asset
             )
@@ -46,7 +47,7 @@ export default function AssetsList() {
     const handleDeleteAsset = async (assetId: number) => {
         if (!assets) return
         try {
-            await axios.delete(`/api/assets/${assetId}/`)
+            await axios.delete(`/assets/${assetId}/`)
             const updatedAssets = assets.filter((asset) => asset.id !== assetId)
             setAssets(updatedAssets)
         } catch (error) {
@@ -57,7 +58,7 @@ export default function AssetsList() {
     const handleAddAsset = async (newAsset: Asset) => {
         if (!assets) return
         try {
-            const response = await axios.post<Asset>('/api/assets/', newAsset)
+            const response = await axios.post<Asset>('/assets/', newAsset)
             setAssets([response.data, ...assets])
             setIsAdding(false)
         } catch (error) {
@@ -67,7 +68,7 @@ export default function AssetsList() {
     }
 
     return (
-        <main className='w-[800px] flex flex-col mx-auto py-[3%] h-full gap-6 text-sm'>
+        <main className='w-[800px] flex flex-col mx-auto py-[3%] h-full gap-6 text-sm select-none'>
             <Button onClick={toggleAdding} className='shadow'>
                 <PlusIcon className='w-5 stroke-2' /> Adicionar
             </Button>
@@ -96,8 +97,8 @@ export default function AssetsList() {
                 <PaginationBar
                     hasPrevious={assetsPage.previous !== null}
                     hasNext={assetsPage.next !== null}
-                    onPreviousClick={() => fetchData(assetsPage.previous)}
-                    onNextClick={() => fetchData(assetsPage.next)}
+                    onPreviousClick={() => setPage(page => page-1)}
+                    onNextClick={() => setPage(page => page+1)}
                 />
             }
         </main>

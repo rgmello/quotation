@@ -13,7 +13,7 @@ class AssetQuotationScheduler:
         try:
             assets = Asset.objects.all()
             for asset in assets:
-                if asset.code not in cls._threads:
+                if asset.id not in cls._threads:
                     cls.add_job(asset)
         except OperationalError as e:
             counter += 1
@@ -22,16 +22,16 @@ class AssetQuotationScheduler:
 
     @classmethod
     def add_job(cls, asset: Asset) -> None:
-        cls.remove_job(asset.code)
+        cls.remove_job(asset.id)
         thread = QuotationThread(asset)
-        cls._threads[asset.code] = thread
+        cls._threads[asset.id] = thread
         thread.daemon = True
         thread.start()
 
     @classmethod
-    def remove_job(cls, asset_code: str) -> None:
-        thread = cls._threads.get(asset_code)
+    def remove_job(cls, asset_id: str) -> None:
+        thread = cls._threads.get(asset_id)
         if thread:
             thread.stop()
             thread.join()
-            del cls._threads[asset_code]
+            del cls._threads[asset_id]

@@ -1,6 +1,7 @@
-import { useTheme } from '../providers/theme-provider'
+import { twMerge } from 'tailwind-merge'
+import Button from '../primitives/button'
+import { useTheme } from '../../providers/theme-provider'
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
-import Button from './primitives/button'
 
 
 interface ThemeToggleProps {
@@ -17,7 +18,7 @@ export default function ThemeToggle({ isOpen, className }: ThemeToggleProps) {
         <Button
             variant='secondary'
             onClick={toggleTheme}
-            className={`${isOpen ? 'justify-start' : ''} gap-3 border border-transparent hover:border-border`}
+            className={twMerge(`${isOpen ? 'justify-start' : ''} font-normal gap-3 border border-transparent hover:border-border`, className)}
         >
             {isThemeDark ? <MoonIcon className={iconClass} /> : <SunIcon className={iconClass} />}
             {isOpen && 'Trocar o tema'}

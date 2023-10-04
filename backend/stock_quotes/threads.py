@@ -2,7 +2,6 @@ import time
 import threading
 import yfinance as yf
 from decouple import config
-from django.core.mail import send_mail
 from .models import Asset, Price, EmailNotification
 
 
@@ -22,9 +21,9 @@ class QuotationThread(threading.Thread):
             try:
                 last_price = self.get_last_price()
                 recommendation = self.get_recommendation(last_price)
-                #if recommendation: self.send_email_notification(recommendation)
+                if recommendation: self.send_email_notification(recommendation)
             except Exception as e:
-                print(f'Não foi possível monitorar a ação {self.asset.code}:\n{e}')
+                print(f'Erro ao monitorar a ação {self.asset.code} para {self.asset.user.email}:\n{e}')
 
             while not self._died and elapsed_time < 60 * self.asset.check_interval_minutes:
                 elapsed_time = time.time() - start_time
@@ -46,13 +45,12 @@ class QuotationThread(threading.Thread):
     
     def send_email_notification(self, recommendation: str) -> None:
         subject = f'Recomendação para ativo {self.asset.code}'
-        message = f'Recomendamos a {"compra" if recommendation == "buy" else "venda"} imediata de suas ações {self.asset.code}.'
+        message = f'{self.asset.user.first_name}, recomendamos nesse momento a {"compra" if recommendation == "buy" else "venda"} de suas ações {self.asset.code}.'
         from_email = config('DEFAULT_FROM_EMAIL')
-        recipient_list = [config('EMAIL_INVESTOR_USER')]
 
         try:
-            send_mail(subject, message, from_email, recipient_list)
+            self.asset.user.email_user(subject, message, from_email)
             EmailNotification.objects.create(asset=self.asset, notification_type=recommendation)
         except Exception as e:
-            print(f'Erro ao enviar recomendação quanto à ação {self.asset.code} para o e-mail do investidor.')
+            print(f'Erro ao enviar e-mail para {self.asset.user.email}.')
             raise(e)

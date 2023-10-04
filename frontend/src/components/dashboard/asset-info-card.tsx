@@ -39,7 +39,7 @@ export default function AssetInfoCard({ lastPrice, className }: AssetCardProps) 
                 <span className='text-sm text-card-foreground'>
                     {recommendation === 'buy' && <>É um momento adequado para comprar esse ativo.</>}
                     {recommendation === 'sell' && <>É um momento adequado para vender esse ativo.</>}
-                    {recommendation === '' && <>Ainda não é interessante operar esse ativo.</>}
+                    {recommendation === '' && <>Não é interessante operar esse ativo agora.</>}
                 </span>
             </div>
         </Card>

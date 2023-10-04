@@ -6,6 +6,7 @@ charset-normalizer==3.2.0
 Django==4.2.5
 django-cors-headers==4.2.0
 djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.0
 frozendict==2.3.8
 html5lib==1.1
 idna==3.4
@@ -14,6 +15,7 @@ multitasking==0.0.11
 numpy==1.26.0
 pandas==2.1.1
 peewee==3.16.3
+PyJWT==1.7.1
 python-dateutil==2.8.2
 python-decouple==3.8
 pytz==2023.3.post1
