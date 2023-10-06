@@ -19,13 +19,12 @@ export function useQueryData(asset?: Asset | null, query?: CycleQuery) {
             try {
                 setError(null)
                 const response = await axios.get<number[]>(`/assets/${asset.id}/cycle_prices/?year=${query.year}&month=${query.month}&day=${query.day}`)
-                setIsLoading(false)
                 !ignore && setQueryData({ query: query, values: response.data })
             } catch (error) {
-
                 setError('Essa consulta é inválida.')
                 console.error('Erro ao consultar histórico do ativo:', error)
             }
+            setIsLoading(false)
         }
 
         let ignore = false

@@ -1,70 +1,72 @@
-# Sistema de Auxílio à Decisão de Investimentos
+# Monitor de Cotações
 
-Este é um projeto para criar um sistema que auxilia investidores em suas decisões de compra/venda de ativos financeiros. O sistema registra periodicamente a cotação atual de ativos da B3 (Bolsa de Valores do Brasil) e notifica os investidores por e-mail quando houver oportunidades de negociação.
+Este projeto é uma aplicação web para monitoramento de ações e ativos financeiros. Proporciona uma visão clara das cotações, permitindo aos usuários definirem limites de prejuízo e lucro para suas operações. Além disso, envia avisos por e-mail para os investidores recomendando compra ou venda de ações quando a cotação delas cruza esses limites.
 
-## Funcionalidades
+![Dashboard de acompanhamento](screenshots/dashboard.png)
 
-- Exposição de uma interface web para configurar os ativos a serem monitorados;
-- Definição dos parâmetros de túnel de preço para cada ativo;
-- Configuração da periodicidade da verificação de preços para cada ativo;
-- Armazenamento das cotações dos ativos de fontes públicas;
-- Consulta dos preços armazenados dos ativos cadastrados;
-- Envio de e-mails sugerindo compra quando o preço cruza o limite inferior do túnel;
-- Envio de e-mails sugerindo venda quando o preço cruza o limite superior do túnel.
+## Features
 
-## Tecnologias Utilizadas
+- **Monitoramento ativo:** A cotação de cada ação é monitorada periodicamente de acordo com o intervalo de tempo definido pelo investidor.
+- **Avisos automáticos:** O investidor recebe notificações por e-mail com recomendações de compra e venda baseadas nos parâmetros de túnel definidos.
+- **Multiusuários:** Suporte a contas para múltiplos investidores, com autenticação JWT.
+- **Temas:** Suporte a temas claro e escuro.
 
-- Python com Django (backend)
-- React (frontend)
-- SQLite (banco de dados)
-- API não-sei-o-quê (consulta de cotação)
-- Biblioteca não-sei-qual (envio de e-mails)
+## Pré-requisitos
 
-## Configuração do Ambiente de Desenvolvimento
+Para rodar a aplicação localmente, você precisará das seguintes ferramentas instaladas:
 
-1. Clone o repositório para a sua máquina local:
-```
+- [Node.js](https://nodejs.org)
+- [Python](https://www.python.org)
+- [Git](https://git-scm.com)
+
+## Clonando o Repositório
+
+Comece clonando o repositório:
+
+```bash
 git clone https://github.com/vonkakarius/quotation.git
+cd quotation
 ```
 
-2. Crie um ambiente virtual para isolar as dependências do projeto:
+## Configurações de Variáveis de Ambiente
+
+Este projeto requer a configuração de variáveis de ambiente para funcionar corretamente. Dentro do diretório `backend`, crie um arquivo .env e configure as seguintes variáveis, das quais apenas as 3 primeiras são necessárias:
+
+```bash
+SECRET_KEY=sua_chave_secreta_jwt
+DEBUG=True
+DEFAULT_FROM_EMAIL=seu_email@example.com
+EMAIL_HOST=smtp.exemplo.com
+EMAIL_HOST_USER=seu_usuario
+EMAIL_HOST_PASSWORD=sua_senha
+EMAIL_PORT=587
 ```
-cd backend && python -m venv venv
-```
 
-3. Ative o ambiente virtual:
+No estado de debug ativado, os e-mails são mostrados no console do servidor backend ao invés de serem enviados de fato aos investidores.
 
-- No Windows:
-  ```
-  venv\Scripts\activate
-  ```
+## Instalando Dependências e Iniciando os Servidores
 
-- No macOS e Linux:
-  ```
-  source venv/bin/activate
-  ```
+Acesse as pastas `frontend` e `backend` em terminais diferentes:
 
-4. Instale as dependências do projeto:
-```
+### Terminal 1: Backend
+
+```bash
+cd backend
+python -m venv venv
+venv/Scripts/activate # ou "source venv/bin/activate" para MacOS ou Linux
 pip install -r requirements.txt
-```
-
-5. Configure as variáveis de ambiente necessárias (por exemplo, configurações sensíveis) em um arquivo `.env`.
-
-6. Execute as migrações para criar as tabelas do banco de dados:
-```
 python manage.py migrate
+python manage.py runserver --noreload
 ```
 
-7. Inicie o servidor de desenvolvimento:
-```
-python manage.py runserver
-```
+### Terminal 2: Frontend
 
-8. Inicie o frontend React em outro terminal:
-```
-cd ../frontend
+```bash
+cd frontend
+npm install
 npm start
 ```
 
-9. Acesse o sistema em `http://localhost:3000` no seu navegador.
+## Acessando a Aplicação
+
+Acesse a aplicação em [http://localhost:3000](http://localhost:3000).
