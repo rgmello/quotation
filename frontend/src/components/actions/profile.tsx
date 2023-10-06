@@ -32,7 +32,7 @@ export default function Profile({ isOpen, className }: ProfileProps) {
         <div className={twMerge('py-4 mb-1 flex items-center justify-between', className)}>
             {isOpen &&
                 <div className='flex flex-col'>
-                    <span className='pl-2'>{user.firstName}</span>
+                    <span className='pl-2'>{user.firstName} {user.lastName}</span>
                     <span className='pl-2 text-card-foreground/60'>{user.email}</span>
                 </div>
             }

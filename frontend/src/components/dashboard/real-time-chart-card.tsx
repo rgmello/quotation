@@ -3,6 +3,7 @@ import Card from '../primitives/card'
 import { Price } from '../../utils/types'
 import { getRealTimeChartData } from '../../utils/chart'
 import { useAssetContext } from '../../providers/asset-provider'
+import { getAssetLowerLimit, getAssetUpperLimit } from '../../utils/analysis'
 
 
 interface RealTimeChartCardProps {
@@ -21,8 +22,8 @@ export default function RealTimeChartCard({ prices, className }: RealTimeChartCa
                 {asset && prices &&
                     <Chart
                         serie={getRealTimeChartData(prices, asset.code)}
-                        tunnelLowerLimit={asset.tunnel_lower_limit}
-                        tunnelUpperLimit={asset.tunnel_upper_limit}
+                        tunnelLowerLimit={getAssetLowerLimit(asset)}
+                        tunnelUpperLimit={getAssetUpperLimit(asset)}
                     />
                 }
             </div>

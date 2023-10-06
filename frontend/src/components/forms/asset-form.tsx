@@ -19,8 +19,9 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
         id: 0,
         code: '',
         name: '',
-        tunnel_lower_limit: 0,
-        tunnel_upper_limit: 0,
+        purchase_price: 0,
+        drop_percentage: 0,
+        increase_percentage: 0,
         check_interval_minutes: 0,
     }
 
@@ -59,19 +60,30 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                 />
                 <Input
                     type='number'
-                    name='tunnel_lower_limit'
-                    placeholder='Limite inferior'
-                    value={newAsset.tunnel_lower_limit}
+                    name='purchase_price'
+                    placeholder='Preço de compra'
+                    value={newAsset.purchase_price}
                     onChange={handleInputChange}
                     required
                     disabled={isLoading}
                 />
                 <Input
                     type='number'
-                    name='tunnel_upper_limit'
-                    placeholder='Limite superior'
-                    value={newAsset.tunnel_upper_limit}
+                    name='drop_percentage'
+                    placeholder='Queda para compra (%)'
+                    value={newAsset.drop_percentage}
                     onChange={handleInputChange}
+                    min={0}
+                    required
+                    disabled={isLoading}
+                />
+                <Input
+                    type='number'
+                    name='increase_percentage'
+                    placeholder='Aumento para venda (%)'
+                    value={newAsset.increase_percentage}
+                    onChange={handleInputChange}
+                    min={0}
                     required
                     disabled={isLoading}
                 />
@@ -81,6 +93,7 @@ export default function AssetForm({ asset, onSubmitAsset, onCancel, className }:
                     placeholder='Intervalo de checagem em minutos'
                     value={newAsset.check_interval_minutes}
                     onChange={handleInputChange}
+                    min={0}
                     required
                     disabled={isLoading}
                 />

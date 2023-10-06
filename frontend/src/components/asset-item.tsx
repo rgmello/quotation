@@ -66,11 +66,11 @@ export default function AssetItem({ asset, onUpdateAsset, onDeleteAsset, classNa
                             icon={<ClockIcon className='w-4 text-card-foreground stroke-2' />}
                         />
                         <Info
-                            text={`R$ ${asset.tunnel_lower_limit.toString().replace('.', ',')}`}
+                            text={`${asset.drop_percentage.toString().replace('.', ',')}%`}
                             icon={<ArrowTrendingDownIcon className='w-4 text-destructive stroke-2' />}
                         />
                         <Info
-                            text={`R$ ${asset.tunnel_upper_limit.toString().replace('.', ',')}`}
+                            text={`${asset.increase_percentage.toString().replace('.', ',')}%`}
                             icon={<ArrowTrendingUpIcon className='w-4 text-primary stroke-2' />}
                         />
                     </div>

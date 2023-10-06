@@ -39,8 +39,8 @@ class QuotationThread(threading.Thread):
             raise(e)
     
     def get_recommendation(self, price: float) -> str:
-        if price < self.asset.tunnel_lower_limit: return 'buy'
-        if price > self.asset.tunnel_upper_limit: return 'sell'
+        if price <= self.asset.getTunnelLowerLimit(): return 'buy'
+        if price >= self.asset.getTunnelUpperLimit(): return 'sell'
         return ''
     
     def send_email_notification(self, recommendation: str) -> None:

@@ -4,6 +4,7 @@ import { getQueryChartData } from '../../utils/chart'
 import { CycleQuery, QueryData } from '../../utils/types'
 import { useAssetContext } from '../../providers/asset-provider'
 import { monthName } from '../../utils/date'
+import { getAssetLowerLimit, getAssetUpperLimit } from '../../utils/analysis'
 
 
 interface QueryChartCardProps {
@@ -34,8 +35,8 @@ export default function QueryChartCard({ queryData, className }: QueryChartCardP
                 {asset &&
                     <Chart
                         serie={getQueryChartData(queryData?.values || [], asset.code)}
-                        tunnelLowerLimit={asset.tunnel_lower_limit}
-                        tunnelUpperLimit={asset.tunnel_upper_limit}
+                        tunnelLowerLimit={getAssetLowerLimit(asset)}
+                        tunnelUpperLimit={getAssetUpperLimit(asset)}
                     />
                 }
             </div>
