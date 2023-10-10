@@ -13,11 +13,12 @@ Este projeto é uma aplicação web para monitoramento de ações e ativos finan
 
 ## Pré-requisitos
 
-Para rodar a aplicação localmente, você precisará das seguintes ferramentas instaladas:
+Para rodar a aplicação localmente, você usará as seguintes ferramentas:
 
-- [Node.js](https://nodejs.org)
-- [Python](https://www.python.org)
 - [Git](https://git-scm.com)
+- [Docker](https://www.docker.com) (opcional, porém recomendado)
+- [Node.js](https://nodejs.org) (apenas se não estiver usando Docker)
+- [Python](https://www.python.org) (apenas se não estiver usando Docker)
 
 ## Clonando o Repositório
 
@@ -44,9 +45,20 @@ EMAIL_PORT=587
 
 No estado de debug ativado, os e-mails são mostrados no console do servidor backend ao invés de serem enviados de fato aos investidores.
 
-## Instalando Dependências e Iniciando os Servidores
+## Inicialização usando Docker
 
-Acesse as pastas `frontend` e `backend` em terminais diferentes:
+Caso prefira utilizar o Docker Compose, execute os dois comandos no terminal a partir do diretório raiz do projeto:
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+Em seguida, acesse a aplicação em [http://localhost:3000](http://localhost:3000).
+
+## Instalação e Inicialização sem usar Docker
+
+Acesse as pastas `frontend` e `backend` em terminais diferentes, instale as dependências e inicie os servidores:
 
 ### Terminal 1: Backend
 
@@ -67,6 +79,6 @@ npm install
 npm start
 ```
 
-## Acessando a Aplicação
+### Acessando a Aplicação
 
 Acesse a aplicação em [http://localhost:3000](http://localhost:3000).
